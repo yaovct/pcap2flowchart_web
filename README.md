@@ -1,13 +1,12 @@
-# pcap2flowchart: the pcap file convert to a flowchart figure
-This program will read a signaling data with pcap format that contains SIP/RTP/DNS/Diameter/M2UA protocols and convert it to a call trace flowchart figure.
+# pcap2flowchart: the pcap file convert to a flowchart figure with a web mouseover interation.
+This program is a server-site program.
 
-You need to install php-cli, php-gd, wireshark and gnuplot libraries at first. (see install/Dockerfile)
+The index.html contains two inputs of pcap filename and filtering string.
 
-The running command is as follows.
+After post methed activated, the program will read a signaling data with pcap format that contains SIP/RTP/DNS/Diameter/M2UA protocols and convert it to a call trace flowchart figure.
 
-Example:
+In addition, the mouseover event will be triggered once the signaling data is driven.
 
-php pcap2flow.php your_pcap_file [wireshark filter string]
-
+You need to install httpd, php-cli, php-gd, wireshark and gnuplot libraries at first. (see install/Dockerfile)
 
 The output filename will be a PNG format with the first timestamp of your_pcap_file.
