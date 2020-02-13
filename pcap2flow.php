@@ -736,7 +736,17 @@ unlink($tmpgnu);
 	
 	<title>Interaction of the call trace</title>
 
+	<!-- Bootstrap -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+
 	<style type="text/css">
+		.wrapper {
+		/*	position:relative; */
+			min-height:90%
+			height:auto !important;
+			height:100%;
+			margin:0 auto -70px; /* the bottom margin is the negative value of the footer's height */
+		}
 	  .popover-area {
 	      display: block;
 	      width: 150px;
@@ -750,22 +760,15 @@ unlink($tmpgnu);
 	</style>	
 </head>
 <body>
-<div class="container">
+<div class="wrapper">
 	<div id="pic_main">
 		<img id="mypic" border="0" src="<?=$mypic?>" class="image-map" usemap="#mymap"/>
 		<map name="mymap">
 <?php
 	for($i=0; $i<$flows; $i++) {
-		if(!strcmp($trace[$i]['type'],'sip')||!strcmp($trace[$i]['type'],'rtp')||!strcmp($trace[$i]['type'],'dns')||
-		   !strcmp($trace[$i]['type'],'dia')||!strcmp($trace[$i]['type'],'m2u')) {
-			print '<area href="#" coords="'.$area_coord[$i].'"'.
-		             ' data-id='.$i.
-		             ' data-packet_info="'.$tshark_time[$i].'">';
-		} elseif(!strcmp($trace[$i]['type'],'ss7')) {
-			print '<area href="#" coords="'.$area_coord[$i].'"'.
-		             ' data-id='.$i.
-		             ' data-packet_info="'.$tshark_time[$i].'">';
-		}
+		print '<area href="#" coords="'.$area_coord[$i].'"'.
+	         ' data-id='.$i.
+	         ' data-packet_info="'.$tshark_time[$i].'">';
 	} // end for(i...)
 ?>
 		</map>
@@ -775,6 +778,8 @@ unlink($tmpgnu);
 	</div>
 </div>
 <script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap-tooltip.js"></script>
+<script src="js/bootstrap-popover.js"></script>
 <script>
 
 // 浮動視窗顯示的內容
@@ -874,7 +879,7 @@ $float_txt = '';
 			  ($trace[$i]['result_code'] > 0 ? '<br><b>Result_Code</b> = <font color=brown>'.getResultCode($trace[$i]['result_code']).' ('.$trace[$i]['result_code'].')</font>' : '').
 			  ($trace[$i]['ex_result_code'] > 0 ? '<br><b>Exp_Result_Code</b> = <font color=brown>'.getExperimentalResultCode($trace[$i]['ex_result_code']).' ('.$trace[$i]['ex_result_code'].')</font>' : '');
 
-		} elseif(!strcmp($trace[$i]['type'],'m2u')||!strcmp($trace[$i]['type'],'ss7')) {
+		} elseif(!strcmp($trace[$i]['type'],'m2u')) {
 
 			$ci = 0;
 			if(!empty($q850_arr[$trace[$i]['cause_i']])) {
@@ -942,32 +947,32 @@ function fixonTop(){
   }
 	if(mytop > $('#mzpic').height()) {
 		$('#pic_title').show();
+		$('#pic_title').css('top',mytop);
 	} else {
 		$('#pic_title').hide();
 	}
 }
 
-//$(function() {
-//	$('area').on('click',function(event){
-//	}).popover({
-//    measure: 'img.image-map',
-//    mouseOffset: 20,
-//    container: 'body',
-//    followMouse: true,
-//    html: true,
-//    placement: function() {
-//    	var pos = window.innerHeight*5/8;
-//    	if(event.pageY > pos)
-//    		return 'top';
-//    	else
-//    		return 'right';
-//    },
-//    trigger: 'hover',
-//    content: function(){
-//    	return contents[$(this).data('id')];
-//    }
-//	});
-//});
+$(function() {
+	$('area').popover({
+    measure: 'img.image-map',
+    mouseOffset: 20,
+    container: 'body',
+    followMouse: true,
+    html: true,
+    placement: function() {
+    	var pos = window.innerHeight*5/8;
+    	if(event.pageY > pos)
+    		return 'top';
+    	else
+    		return 'right';
+    },
+    trigger: 'hover',
+    content: function(){
+    	return contents[$(this).data('id')];
+    }
+	});
+});
 window.onscroll=fixonTop;
 </script>
 </body>
