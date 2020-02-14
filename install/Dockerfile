@@ -1,11 +1,12 @@
 FROM centos:7
-MAINTAINER yaovct@cht.com.tw
+MAINTAINER yao.vct@gmail.com
 
-RUN export http_proxy=http://10.144.169.125:8080
-RUN export https_proxy=http://10.144.169.125:8080
-RUN export ftp_proxy=http://10.144.169.125:8080
+RUN yum -y --setopt=tsflags=nodocs update && \
+    yum -y --setopt=tsflags=nodocs install httpd php php-gd gnuplot wireshark
 
-RUN yum update -y
-RUN yum install php-cli php-gd gnuplot wireshark -y
+EXPOSE 80
 
-WORKDIR /cs210_pcap2flow
+ADD run-httpd.sh /run-httpd.sh
+RUN chmod -v +x /run-httpd.sh
+
+CMD ["/run-httpd.sh"]

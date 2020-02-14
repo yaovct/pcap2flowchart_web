@@ -1,6 +1,6 @@
 <?php
 // Created: 2020/02/11
-// by Victor Yang, CHTTL
+// by Victor Yang
 // To convert a pcap file to a call trace flow (png format) with a web mouseover interation.
 // INPUT: a pcap filename
 // OUTPUT: a call trace flow figure and a web page
